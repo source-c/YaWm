@@ -1,0 +1,3 @@
+#!/bin/dash -e
+read CMD
+SHELL=`echo $(eval $SHELL)` exec $CMD

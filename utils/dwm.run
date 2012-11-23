@@ -1,0 +1,12 @@
+#!/bin/bash
+
+export HUSHLOGIN=FALSE
+export LANG=en_US.UTF-8
+
+LDID=`cat /proc/net/unix |grep X11|cut -d' ' -f8|sed -e 's/@//;s/.*\/\([^\/]*\)/\1/;s/X//'|sort -u|tail -1`
+LDID=$(($LDID+1))
+
+TTY=`tty`
+TTY=${TTY//[a-z\/]}
+
+exec xinit dwm -- :${LDID} vt${TTY} -nolisten tcp -br

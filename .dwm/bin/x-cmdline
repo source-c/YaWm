@@ -1,0 +1,4 @@
+#!/bin/sh
+
+#exec fbrun -font sans-8 -w 270 -bg gray -pos 255 0
+exec xterm
