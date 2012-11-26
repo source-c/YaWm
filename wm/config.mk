@@ -1,5 +1,5 @@
 # yawm version
-VERSION = 1.0-YaWm
+VERSION = 1.0
 
 # Customize below to fit your system
 

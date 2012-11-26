@@ -2910,7 +2910,7 @@ main(int argc, char *argv[]) {
 	int mnr = XkbMinorVersion;
 #endif	
 	if(argc == 2 && !strcmp("-v", argv[1]))
-		die("yawm-"VERSION", © 2006-2010-2012 yawm engineers, see LICENSE for details\n");
+		die("yawm-"VERSION", © 2006-2010-2012 YaWm engineers, see LICENSE for details\n");
 	else if(argc != 1)
 		die("usage: yawm [-v]\n");
 	if(!setlocale(LC_CTYPE, "") || !XSupportsLocale())
