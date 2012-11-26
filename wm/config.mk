@@ -1,5 +1,5 @@
-# dwm version
-VERSION = 6.0-MelKori
+# yawm version
+VERSION = 1.0-YaWm
 
 # Customize below to fit your system
 

@@ -22,7 +22,7 @@ necessary as root):
 Running yawm
 -----------
 Use a utils/.xinitrc as an example of start-up script for your instance of
-yawm and dwm.run wrapper in order to get yawm properly running.
+yawm and yawm.run wrapper in order to get yawm properly running.
 
 In order to connect yawm to a specific display, make sure that
 the DISPLAY environment variable is set correctly, e.g.:
