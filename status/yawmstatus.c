@@ -1,14 +1,12 @@
 /* 
 ** Basic dwm status with just time HH:MM and battery
 ** Compile with:
-** gcc -Wall -pedantic -std=c99 -lX11 status.c
 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-#define _XOPEN_SOURCE 1
-#define _GNU_SOURCE
+#define __USE_POSIX
 
 #include <time.h>
 #include <X11/Xlib.h>
@@ -88,7 +86,7 @@ int
 main(int cn, char** cv) {
 	char *status;
 	char *datetime;
-	int bat0;
+	int bat0 = 0;
 	int count = 0;
 
 

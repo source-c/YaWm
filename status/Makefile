@@ -2,10 +2,10 @@
 
 include config.mk
 
-SRC = ${NAME}.c ${NAME}_basic.c
+SRC = ${NAME}.c
 OBJ = ${SRC:.c=.o}
 
-all: options ${NAME} ${NAME}_basic
+all: options ${NAME}
 
 options:
 	@echo ${NAME} build options:
@@ -23,13 +23,9 @@ ${NAME}: ${NAME}.o
 	@echo CC -o $@
 	@${CC} -o $@ $< ${LDFLAGS}
 
-${NAME}_basic: ${NAME}_basic.o
-	@echo CC -o $@
-	@${CC} -o $@ $< ${LDFLAGS}
-
 clean:
 	@echo cleaning
-	@rm -f ${NAME} ${NAME}_basic ${OBJ} ${NAME}-${VERSION}.tar.gz *~
+	@rm -f ${NAME} ${OBJ} ${NAME}-${VERSION}.tar.gz *~
 
 dist: clean
 	@echo creating dist tarball
