@@ -30,7 +30,7 @@ stest: stest.o
 
 clean:
 	@echo cleaning
-	@rm -f dmenu stest ${OBJ} dmenu-${VERSION}.tar.gz
+	@rm -f dmenu stest ${OBJ} dmenu-${VERSION}.tar.gz *~
 
 dist: clean
 	@echo creating dist tarball
