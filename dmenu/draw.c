@@ -6,10 +6,11 @@
 #include <string.h>
 #include <X11/Xlib.h>
 #include "draw.h"
+#include "../colors.h"
 
 #define MAX(a, b)  ((a) > (b) ? (a) : (b))
 #define MIN(a, b)  ((a) < (b) ? (a) : (b))
-#define DEFAULTFN  "fixed"
+#define DEFAULTFN  DEFAULT_FONT
 
 static Bool loadfont(DC *dc, const char *fontstr);
 
