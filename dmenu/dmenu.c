@@ -12,6 +12,7 @@
 #include <X11/extensions/Xinerama.h>
 #endif
 #include "draw.h"
+#include "../colors.h"
 
 #define INTERSECT(x,y,w,h,r)  (MAX(0, MIN((x)+(w),(r).x_org+(r).width)  - MAX((x),(r).x_org)) \
                              * MAX(0, MIN((y)+(h),(r).y_org+(r).height) - MAX((y),(r).y_org)))
@@ -45,10 +46,10 @@ static int inputw, promptw;
 static size_t cursor = 0;
 static const char *font = NULL;
 static const char *prompt = NULL;
-static const char *normbgcolor = "#222222";
-static const char *normfgcolor = "#bbbbbb";
-static const char *selbgcolor  = "#005577";
-static const char *selfgcolor  = "#eeeeee";
+static const char *normbgcolor = NORMAL_BACKGROUND;
+static const char *normfgcolor = NORMAL_FOREGROUND;
+static const char *selbgcolor  = SELECTED_BACKGROUND;
+static const char *selfgcolor  = SELECTED_FOREGROUND;
 static unsigned int lines = 0;
 static unsigned long normcol[ColLast];
 static unsigned long selcol[ColLast];
