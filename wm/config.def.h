@@ -16,7 +16,8 @@ static const unsigned int snap      = 10;       /* snap pixel */
 static const Bool showbar           = True;     /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
 static const Bool autoLayout        = True;     /* False means don't drop layout while switching */
-static const Bool autoFocus         = True;     /* False means no autofocusing windows by mouse pointer */
+/* runtime configured apperance */
+static Bool autoFocus               = True;     /* False means no autofocusing windows by mouse pointer */
 
 /* Systray */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
@@ -32,7 +33,6 @@ static const Rule rules[] = {
 	{ "Opera",     NULL,       NULL,       1 << 1,       True,        -1 },
 	{ "luakit",    NULL,       NULL,       1 << 1,       True,        -1 },
 	{ "fbpanel",   NULL,       NULL,       ~0,           True,        -1 },
-	{ "tdc",       NULL,       NULL,       ~0,           True,        -1 }
 };
 
 /* layout(s) */
@@ -100,6 +100,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} }, /* FullScreen */
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[0]} }, /* Tile */
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
+	{ MODKEY|ControlMask|ShiftMask, XK_a,      toggleautofocus,{0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_F10,    view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_F10,    tag,            {.ui = ~0 } },

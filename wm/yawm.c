@@ -268,6 +268,7 @@ static void switch_xkb(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static int textnw(const char *text, unsigned int len);
+static void toggleautofocus(const Arg *arg);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -2182,6 +2183,11 @@ tile(Monitor *m) {
 			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
 			ty += HEIGHT(c);
 		}
+}
+
+void
+toggleautofocus(const Arg *arg) {
+	autoFocus ^= 1;
 }
 
 void
