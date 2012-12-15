@@ -1,7 +1,7 @@
 YaWm
 ====
 
-YaWm is just Yet Another Window Manager for everyday use. Another meaning of the project name is al-yawm [the day] (wiki):
+YaWm is just Yet Another Window Manager for everyday use. Another meaning of the project name is al-yawm [the day] (YaWm/wiki):
 
 Originaly the code was forked from suckless's dwm, but for now I'm pretty sure that
 no patches from dwm might be applied to yawm - they became completely different.
