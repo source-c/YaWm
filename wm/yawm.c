@@ -1872,6 +1872,7 @@ scan(void) {
 		if(wins)
 			XFree(wins);
 	}
+	switch_xkb(NULL);
 }
 
 void
@@ -2066,6 +2067,7 @@ setup(void) {
 	snprintf(selmon->xkbsym, 5, "[--]");
 	XSync(dpy, False);
 #endif
+
 	/* select for events */
 	wa.cursor = cursor[CurNormal];
 	wa.event_mask = SubstructureRedirectMask|SubstructureNotifyMask|ButtonPressMask|PointerMotionMask
@@ -2207,10 +2209,6 @@ togglefloating(const Arg *arg) {
 		return;
 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
 	if(selmon->sel->isfloating){
-#if 0 // in order to add storing float mode dimensions
-		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
-		       selmon->sel->w, selmon->sel->h, False);
-#else
 		XSetWindowBorder(dpy, selmon->sel->win, dc.sel[ColBorderFloat]);
 		/* restore last known float dimensions */
 		resize(selmon->sel, selmon->sel->sfx, selmon->sel->sfy,
@@ -2224,7 +2222,6 @@ togglefloating(const Arg *arg) {
 		selmon->sel->sfw = selmon->sel->w;
 		selmon->sel->sfh = selmon->sel->h;
 	}
-#endif
 	arrange(selmon);
 }
 
@@ -2291,7 +2288,6 @@ unmanage(Client *c, Bool destroyed) {
 		XUngrabServer(dpy);
 	}
 	free(c);
-//	focus(NULL);
 	arrange(m);
 }
 
@@ -2914,6 +2910,7 @@ main(int argc, char *argv[]) {
 	int xkbError,  reason_rtrn;
 	int mjr = XkbMajorVersion;
 	int mnr = XkbMinorVersion;
+	int _tmp;
 #endif	
 	if(argc == 2 && !strcmp("-v", argv[1]))
 		die("yawm-"VERSION", © 2006-2010-2012 YaWm engineers, see LICENSE for details\n");
@@ -2927,7 +2924,10 @@ main(int argc, char *argv[]) {
 	if(!(dpy = XkbOpenDisplay(NULL,&xkbEventType,&xkbError,&mjr,&mnr,&reason_rtrn)))
 #endif
 		die("yawm: cannot open display\n");
-#ifdef NATIVE_XKB_SWITCH		
+#ifdef NATIVE_XKB_SWITCH
+	/* seems xkb init needed */
+	if (!XkbQueryExtension(dpy, &_tmp, &_tmp, &_tmp, &mjr, &mnr))
+		die("yawm: Xkb Extensions seems incomatible or is not present in the server");
 	if (!(kb = XkbAllocKeyboard()))
 		die("yawm: unable allocate XkbKeyboard");
 #endif
