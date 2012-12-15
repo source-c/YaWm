@@ -476,8 +476,10 @@ arrange(Monitor *m) {
 		showhide(m->stack);
 	else for(m = mons; m; m = m->next)
 		showhide(m->stack);
-	if(m)
+	if(m){
 		arrangemon(m);
+		restack(m);
+	}
 	else for(m = mons; m; m = m->next)
 		arrangemon(m);
 }
@@ -487,7 +489,6 @@ arrangemon(Monitor *m) {
 	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
 	if(m->lt[m->sellt]->arrange)
 		m->lt[m->sellt]->arrange(m);
-	restack(m);
 }
 
 void
@@ -1027,7 +1028,7 @@ focusmon(const Arg *arg) {
 		return;
 	if((m = dirtomon(arg->i)) == selmon)
 		return;
-	unfocus(selmon->sel, True);
+	unfocus(selmon->sel, False); /* it might be pill for some focus issues */
 	selmon = m;
 	focus(NULL);
 }
@@ -1496,6 +1497,7 @@ motionnotify(XEvent *e) {
 	if(ev->window != root)
 		return;
 	if((m = recttomon(ev->x_root, ev->y_root, 1, 1)) != mon && mon) {
+		unfocus(selmon->sel, True);
 		selmon = m;
 		focus(NULL);
 	}
