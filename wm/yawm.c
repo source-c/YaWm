@@ -2321,6 +2321,8 @@ updatebars(void) {
 		.event_mask = ButtonPressMask|ExposureMask
 	};
 	for(m = mons; m; m = m->next) {
+		if (m->barwin)
+			continue;
 		w = m->ww;
 		if(showsystray && m == selmon)
 			w -= getsystraywidth();
