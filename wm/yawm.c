@@ -367,7 +367,7 @@ static Client *prevclient = NULL;
 /* configuration, allows nested code to access above variables */
 #include "config.h"
 
-/* compile-time check if all tags fit into an unsigned int bit array. */
+/* compile-time check if all tags fit into an unsigned int 32 bit array. */
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 
 /* function implementations */
@@ -783,6 +783,9 @@ createmon(void) {
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
+#ifdef NATIVE_XKB_SWITCH
+	strncpy(m->xkbsym, selmon->xkbsym, sizeof m->xkbsym);
+#endif
 	return m;
 }
 
