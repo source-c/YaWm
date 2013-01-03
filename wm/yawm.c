@@ -784,7 +784,7 @@ createmon(void) {
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
 #ifdef NATIVE_XKB_SWITCH
-	strncpy(m->xkbsym, selmon->xkbsym, sizeof m->xkbsym);
+	snprintf(m->xkbsym, sizeof m->xkbsym, "[%.2s]", "--");
 #endif
 	return m;
 }
@@ -2068,7 +2068,6 @@ setup(void) {
 	xkb_group_base = xkb_groups[0].idx;
 	xkb_group_altr = xkb_groups[KXB_ALTR_DEFAULT % LENGTH(xkb_groups)].idx;
  
-	snprintf(selmon->xkbsym, 5, "[--]");
 	XSync(dpy, False);
 #endif
 
