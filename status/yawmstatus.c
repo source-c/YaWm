@@ -48,19 +48,21 @@ gettime_basic(void){
 
 
 int
-getbattery(char *batn) {
+getbattery(const char *batn, const char *bsubs) {
 #define DEF_BNAME "BAT0"
+#define DEF_BSUBS "energy"
 	FILE *fd;
 	int energy_now, energy_full, voltage_now;
 	char *filename;
+	const char* bsubsys = (bsubs) ? bsubs : DEF_BSUBS;
 
-	if (asprintf(&filename, "/sys/class/power_supply/%s/energy_now",
-			(batn)?batn:DEF_BNAME ) == -1)
+	if (asprintf(&filename, "/sys/class/power_supply/%s/%s_now",
+			(batn)?batn:DEF_BNAME, bsubsys ) == -1)
 		return -1;
 
 	fd = fopen(filename, "r");
 	if(fd == NULL) {
-		fprintf(stderr, "Error opening energy_now.\n");
+		fprintf(stderr, "Error opening %s_now.\n", bsubsys);
 		free(filename);
 		return -1;
 	}
@@ -69,13 +71,13 @@ getbattery(char *batn) {
 	free(filename);
 
 
-	if (asprintf(&filename, "/sys/class/power_supply/%s/energy_full",
-			(batn)?batn:DEF_BNAME ) == -1)
+	if (asprintf(&filename, "/sys/class/power_supply/%s/%s_full",
+			(batn)?batn:DEF_BNAME, bsubsys ) == -1)
 		return -1;
 
 	fd = fopen(filename, "r");
 	if(fd == NULL) {
-		fprintf(stderr, "Error opening energy_full.\n");
+		fprintf(stderr, "Error opening %s_full.\n", bsubsys);
 		free(filename);
 		return -1;
 	}
@@ -144,10 +146,10 @@ main(int cn, char** cv) {
 	int interval = 0;
 	
 	char *iface = NULL, *ifstate = NULL;
-	char *batn = NULL;
+	char *batn = NULL, *bats = NULL;
 	int ch;
 	
-	while ((ch = getopt (cn, cv, "i:b:t:h")) > 0){
+	while ((ch = getopt (cn, cv, "i:b:B:t:h")) > 0){
   		switch(ch){
 			case 'i': /* interface name */
 				iface = optarg;
@@ -160,11 +162,15 @@ main(int cn, char** cv) {
 					   "\t\t-i network interface name\n"
 					   "\t\t-b battery class name\n"
 					   "\t\t-t time interval between updates = 1-60 sec\n"
+					   "\t\t-B battery subsystem prefix (i.e. 'power' or 'energy')\n"
 					   , cv[0]);
 				return 0;
 				break;
 			case 'b': /* battery class name */
 				batn = optarg;
+				break;
+			case 'B': /* battery class name */
+				bats = optarg;
 				break;
 			default:
 				return 0;
@@ -186,7 +192,7 @@ main(int cn, char** cv) {
 	for (;;count++) {
 		datetime = gettime_basic();
 		if ( count % interval == 0 ){
-			bat0 = getbattery(batn);
+			bat0 = getbattery(batn, bats);
 			if (ifstate) free(ifstate);
 			ifstate = get_iface_state(iface);
 		}
