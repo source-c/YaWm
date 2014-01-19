@@ -16,7 +16,7 @@ static const unsigned int snap      = 10;       /* snap pixel */
 static const Bool showbar           = True;     /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
 static const Bool autoLayout        = True;     /* False means don't drop layout while switching */
-/* runtime configured apperance */
+/* runtime configured appearance */
 static Bool autoFocus               = True;     /* False means no autofocusing windows by mouse pointer */
 
 /* Systray */

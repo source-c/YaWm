@@ -17,7 +17,7 @@ LIBS = -L/usr/lib -lc -L${X11LIB} -lX11
 # flags
 CPPFLAGS = -DVERSION=\"${VERSION}\"
 #CFLAGS = -g -std=c99 -pedantic -Wall -O0 ${INCS} ${CPPFLAGS}
-CFLAGS = -std=c99 -pedantic -Wall -Os ${INCS} ${CPPFLAGS}
+CFLAGS = -std=gnu99 -pedantic -Wall -Os ${INCS} ${CPPFLAGS}
 #LDFLAGS = -g ${LIBS}
 LDFLAGS = -s ${LIBS}
 

@@ -2,12 +2,12 @@
 ** Basic dwm status with just time HH:MM and battery
 ** Compile with:
 */
-#include <stdio.h>
+#define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
-
-#define __USE_POSIX
-
+#include <string.h>
+#include <stdio.h>
+#include <getopt.h>
 #include <time.h>
 #include <X11/Xlib.h>
 
@@ -48,38 +48,91 @@ gettime_basic(void){
 
 
 int
-getbattery() {
+getbattery(char *batn) {
+#define DEF_BNAME "BAT0"
 	FILE *fd;
 	int energy_now, energy_full, voltage_now;
+	char *filename;
 
-	fd = fopen("/sys/class/power_supply/BAT0/energy_now", "r");
+	if (asprintf(&filename, "/sys/class/power_supply/%s/energy_now",
+			(batn)?batn:DEF_BNAME ) == -1)
+		return -1;
+
+	fd = fopen(filename, "r");
 	if(fd == NULL) {
 		fprintf(stderr, "Error opening energy_now.\n");
+		free(filename);
 		return -1;
 	}
 	fscanf(fd, "%d", &energy_now);
 	fclose(fd);
+	free(filename);
 
 
-	fd = fopen("/sys/class/power_supply/BAT0/energy_full", "r");
+	if (asprintf(&filename, "/sys/class/power_supply/%s/energy_full",
+			(batn)?batn:DEF_BNAME ) == -1)
+		return -1;
+
+	fd = fopen(filename, "r");
 	if(fd == NULL) {
 		fprintf(stderr, "Error opening energy_full.\n");
+		free(filename);
 		return -1;
 	}
 	fscanf(fd, "%d", &energy_full);
 	fclose(fd);
+	free(filename);
 
+	if (asprintf(&filename, "/sys/class/power_supply/%s/voltage_now",
+			(batn)?batn:DEF_BNAME ) == -1)
+		return -1;
 
-	fd = fopen("/sys/class/power_supply/BAT0/voltage_now", "r");
+	fd = fopen(filename, "r");
 	if(fd == NULL) {
 		fprintf(stderr, "Error opening voltage_now.\n");
+		free(filename);
 		return -1;
 	}
 	fscanf(fd, "%d", &voltage_now);
 	fclose(fd);
-
+	free(filename);
 
 	return ((float)energy_now * 1000 / (float)voltage_now) * 100 / ((float)energy_full * 1000 / (float)voltage_now);
+}
+
+char*
+get_iface_state(const char* ifname){
+#define DEF_IFNAME "wlan0"
+  FILE *fd;
+  char state[5] = {0};
+  char *ret , *filename;
+  
+  if (NULL == ifname)
+	  ifname = DEF_IFNAME;
+	  
+
+  if (asprintf(&filename, "/sys/class/net/%s/operstate", ifname) == -1)
+			return NULL;
+
+  fd = fopen(filename, "r");
+  if(fd == NULL) {
+	fprintf(stderr, "Error opening interface state.\n");
+	free(filename);
+	return NULL;
+  }
+  
+  fscanf(fd, "%4s", state);
+  fclose(fd);
+  free(filename);
+  
+  if (strncmp(state,"up",2) == 0){
+	  asprintf(&ret, "(%s)", (strncmp(ifname,"wlan",4))?"E":"W");
+  } else if (strncmp(state,"down",4) == 0) {
+	  asprintf(&ret, "(%s)", "-");
+  } else {
+	  asprintf(&ret, "(%s)", "?");
+  }
+  return ret;
 }
 
 int
@@ -88,6 +141,37 @@ main(int cn, char** cv) {
 	char *datetime;
 	int bat0 = 0;
 	int count = 0;
+	int interval = 0;
+	
+	char *iface = NULL, *ifstate = NULL;
+	char *batn = NULL;
+	int ch;
+	
+	while ((ch = getopt (cn, cv, "i:b:t:h")) > 0){
+  		switch(ch){
+			case 'i': /* interface name */
+				iface = optarg;
+				break;
+			case 't': /* timeout */
+				interval = atoi(optarg);
+				break;
+			case 'h': /* print usage */
+				printf("\tUsage: %s [options]\n"
+					   "\t\t-i network interface name\n"
+					   "\t\t-b battery class name\n"
+					   "\t\t-t time interval between updates = 1-60 sec\n"
+					   , cv[0]);
+				return 0;
+				break;
+			case 'b': /* battery class name */
+				batn = optarg;
+				break;
+			default:
+				return 0;
+		}
+	}
+	if (interval < 1 || interval > 60)
+		interval = 12;
 
 
 	if (!(dpy = XOpenDisplay(NULL))) {
@@ -97,20 +181,24 @@ main(int cn, char** cv) {
 
 	if((status = malloc(200)) == NULL)
 		exit(1);
-	
 
+	
 	for (;;count++) {
 		datetime = gettime_basic();
-		if ( count % 12 == 0 ){
-			bat0 = getbattery();
+		if ( count % interval == 0 ){
+			bat0 = getbattery(batn);
+			if (ifstate) free(ifstate);
+			ifstate = get_iface_state(iface);
 		}
-		snprintf(status, 14, "%d%% | %s", bat0, datetime);
+		snprintf(status, 14, "%d%% %s %s", bat0, ifstate,datetime);
 
 		free(datetime);
 		setstatus(status);
 		
 		sleep (1);
 	}
+
+	if (ifstate) free(ifstate);
 
 	free(status);
 	XCloseDisplay(dpy);

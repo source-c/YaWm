@@ -1,0 +1,4 @@
+- add actions for mouse events^
+    * lock
+    * sleep
+    * refresh
