@@ -196,7 +196,7 @@ main(int cn, char** cv) {
 			if (ifstate) free(ifstate);
 			ifstate = get_iface_state(iface);
 		}
-		snprintf(status, 14, "%d%% %s %s", bat0, ifstate,datetime);
+		snprintf(status, 15, "%d%% %s %s", bat0, ifstate,datetime);
 
 		free(datetime);
 		setstatus(status);
