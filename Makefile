@@ -7,4 +7,10 @@ all:
 clean:
 	 @for dir in $(DIRS); do $(MAKE) -C $$dir clean; done
 clean-all: clean
-	 @for dir in $(DIRS); do $(MAKE) -C $$dir clean-all; done
+	@for dir in $(DIRS); do $(MAKE) -C $$dir clean-all; done
+	@find . -type f \( \
+		-name \*~ -o \
+        -name \*.bkp \) \
+        -exec rm -f \{\} \+
+
+                                    

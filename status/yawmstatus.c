@@ -1,6 +1,11 @@
 /* 
-** Basic dwm status with just time HH:MM and battery
-** Compile with:
+** Basic yawm status with just time HH:MM and battery
+** Knows how to poll network interface status
+**        Usage: yawmstatus [options]
+**                -i network interface name
+**                -b battery class name
+**                -t time interval between updates = 1-60 sec
+**                -B battery subsystem prefix (i.e. 'power' or 'energy')
 */
 #define _GNU_SOURCE
 #include <stdlib.h>
@@ -49,8 +54,13 @@ gettime_basic(void){
 
 int
 getbattery(const char *batn, const char *bsubs) {
+#ifndef DEF_BNAME
 #define DEF_BNAME "BAT0"
+#endif
+
+#ifndef DEF_BSUBS
 #define DEF_BSUBS "energy"
+#endif
 	FILE *fd;
 	int energy_now, energy_full, voltage_now;
 	char *filename;
@@ -104,7 +114,9 @@ getbattery(const char *batn, const char *bsubs) {
 
 char*
 get_iface_state(const char* ifname){
+#ifndef DEF_IFNAME
 #define DEF_IFNAME "wlan0"
+#endif
   FILE *fd;
   char state[5] = {0};
   char *ret , *filename;
