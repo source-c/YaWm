@@ -2,3 +2,6 @@
     * lock
     * sleep
     * refresh
+- add radio level, RX/TX speed
+- add CPU loads
+- add configuration file with events reading

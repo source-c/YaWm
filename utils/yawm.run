@@ -9,4 +9,4 @@ LDID=$(($LDID+1))
 TTY=`tty`
 TTY=${TTY//[a-z\/]}
 
-exec xinit yawm -- :${LDID} vt${TTY} -nolisten tcp -br
+exec xinit yawm -- :${LDID} vt${TTY} -nolisten tcp -br -once

@@ -1,6 +1,6 @@
 /* 
 ** Basic yawm status with just time HH:MM and battery
-** Knows how to poll network interface status
+** but it knows how to poll a network interface status
 **        Usage: yawmstatus [options]
 **                -i network interface name
 **                -b battery class name
@@ -80,7 +80,6 @@ getbattery(const char *batn, const char *bsubs) {
 	fclose(fd);
 	free(filename);
 
-
 	if (asprintf(&filename, "/sys/class/power_supply/%s/%s_full",
 			(batn)?batn:DEF_BNAME, bsubsys ) == -1)
 		return -1;
@@ -120,10 +119,9 @@ get_iface_state(const char* ifname){
   FILE *fd;
   char state[5] = {0};
   char *ret , *filename;
-  
+
   if (NULL == ifname)
-	  ifname = DEF_IFNAME;
-	  
+	ifname = DEF_IFNAME;
 
   if (asprintf(&filename, "/sys/class/net/%s/operstate", ifname) == -1)
 			return NULL;
@@ -134,17 +132,17 @@ get_iface_state(const char* ifname){
 	free(filename);
 	return NULL;
   }
-  
+
   fscanf(fd, "%4s", state);
   fclose(fd);
   free(filename);
-  
+
   if (strncmp(state,"up",2) == 0){
-	  asprintf(&ret, "(%s)", (strncmp(ifname,"wlan",4))?"E":"W");
+	asprintf(&ret, "(%s)", (strncmp(ifname,"wlan",4))?"E":"W");
   } else if (strncmp(state,"down",4) == 0) {
-	  asprintf(&ret, "(%s)", "-");
+	asprintf(&ret, "(%s)", "-");
   } else {
-	  asprintf(&ret, "(%s)", "?");
+	asprintf(&ret, "(%s)", "?");
   }
   return ret;
 }
@@ -162,7 +160,7 @@ main(int cn, char** cv) {
 	int ch;
 	
 	while ((ch = getopt (cn, cv, "i:b:B:t:h")) > 0){
-  		switch(ch){
+		switch(ch){
 			case 'i': /* interface name */
 				iface = optarg;
 				break;
@@ -171,11 +169,11 @@ main(int cn, char** cv) {
 				break;
 			case 'h': /* print usage */
 				printf("\tUsage: %s [options]\n"
-					   "\t\t-i network interface name\n"
-					   "\t\t-b battery class name\n"
-					   "\t\t-t time interval between updates = 1-60 sec\n"
-					   "\t\t-B battery subsystem prefix (i.e. 'power' or 'energy')\n"
-					   , cv[0]);
+					"\t\t-i network interface name (default is 'wlan0')\n"
+					"\t\t-b battery class name (default is 'BAT0')\n"
+					"\t\t-t time interval between updates = 1-60 sec (default is 12)\n"
+					"\t\t-B battery subsystem prefix (i.e. 'power' or 'energy', default is 'energy')\n"
+					, cv[0]);
 				return 0;
 				break;
 			case 'b': /* battery class name */
@@ -188,9 +186,9 @@ main(int cn, char** cv) {
 				return 0;
 		}
 	}
+
 	if (interval < 1 || interval > 60)
 		interval = 12;
-
 
 	if (!(dpy = XOpenDisplay(NULL))) {
 		fprintf(stderr, "Cannot open display.\n");

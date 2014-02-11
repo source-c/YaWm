@@ -10,3 +10,20 @@ The goal of the project is to get a comfortable working environment in unix way:
 simple, flexible and strictly functional binary code that should help user to work
 with his tasks with a maximal performance and high usability.
 Not more But not less.
+
+Recomended minimal toolset (covered by this git):
+- yawm
+- yawmstatus
+- tinyterm
+- slock
+- dmenu
+
+Optionally:
+- clipit
+- volumeicon-alsa
+- surf
+- tabbed
+- other stuff you wish...
+
+xinit and other X-server stuff are required to run the YaWm.
+

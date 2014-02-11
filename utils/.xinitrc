@@ -10,7 +10,7 @@ else
 	else
 		xxkb&
 	fi
-	xrdb -load $HOME/.Xresourses&
+	[ -r ${HOME}/.Xresources ] && xrdb -load ${HOME}/.Xresources&
 	WLPDIR=${HOME}/.yawm/wallpapers
 	if [ -d "${WLPDIR}" ]; then
 		wpsetters=feh fbsetbg -a ${WLPDIR}/`ls -1 ${WLPDIR}|sort -R|head -1` &

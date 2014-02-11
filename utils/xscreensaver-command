@@ -1,11 +1,13 @@
 #!/bin/bash -x
 
+SLOCK=$(wihch slock)
+
 case "$1" in
 	-lock)
-		test -x ${HOME}/bin/slock && exec slock
+		[ -x ${SLOCK} ] && exec slock
 		;;
 	*)
-		exec /usr/bin/xscreensaver-command $@
+		exec xscreensaver-command $@
 		;;
 esac
 
