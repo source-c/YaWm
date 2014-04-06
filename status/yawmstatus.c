@@ -65,6 +65,21 @@ getbattery(const char *batn, const char *bsubs) {
 	int energy_now, energy_full, voltage_now;
 	char *filename;
 	const char* bsubsys = (bsubs) ? bsubs : DEF_BSUBS;
+	char *quick;
+
+	if (asprintf(&quick, "/sys/class/power_supply/%s/capacity",
+		(batn)?batn:DEF_BNAME) == -1)
+		return -1;
+	// get a quick capacity value if available
+	fd = fopen(quick, "r");
+	if (fd == NULL){
+		free(quick);
+	} else {
+		fscanf(fd, "%d", &energy_now);
+		fclose(fd);
+		free(quick);
+		return energy_now;
+	}
 
 	if (asprintf(&filename, "/sys/class/power_supply/%s/%s_now",
 			(batn)?batn:DEF_BNAME, bsubsys ) == -1)
