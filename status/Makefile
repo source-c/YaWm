@@ -40,8 +40,7 @@ install: all
 	@echo installing executable file to ${DESTDIR}${PREFIX}/bin
 	@mkdir -p ${DESTDIR}${PREFIX}/bin
 	@cp -f ${NAME} ${DESTDIR}${PREFIX}/bin
-	@cp -f ${NAME}_basic ${DESTDIR}${PREFIX}/bin
-	@chmod 755 ${DESTDIR}${PREFIX}/bin/${NAME} ${DESTDIR}${PREFIX}/bin/${NAME}_basic
+	@chmod 755 ${DESTDIR}${PREFIX}/bin/${NAME}
 
 uninstall:
 	@echo removing executable file from ${DESTDIR}${PREFIX}/bin
