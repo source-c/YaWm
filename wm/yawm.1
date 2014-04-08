@@ -1,12 +1,13 @@
-.TH DWM 1 yawm\-VERSION
+.TH YaWM 1 yawm\-VERSION
 .SH NAME
-yawm \- dynamic window manager
+yawm \- yet another (dynamic) window manager
 .SH SYNOPSIS
 .B yawm
 .RB [ \-v ]
 .SH DESCRIPTION
-yawm is a dynamic window manager for X. It manages windows in tiled, monocle
-and floating layouts. Either layout can be applied dynamically, optimising the
+yawm is a dynamic window manager for X. It manages windows in tiled, monocle,
+floating, grid and stackable layouts. Default is float (like a regular WM does).
+Either layout can be applied dynamically, optimising the
 environment for the application in use and the task performed.
 .P
 In tiled layouts windows are managed in a master and stacking area. The master
@@ -19,6 +20,8 @@ layout applied.
 Windows are grouped by tags. Each window can be tagged with one or multiple
 tags. Selecting certain tags displays all windows with these tags.
 .P
+For currently selected tag(s) window selector menu may be called.
+.P
 Each screen contains a small status bar which displays all available tags, the
 layout, the title of the focused window, and the text read from the root window
 name property, if the screen is focused. A floating window is indicated with an
@@ -29,6 +32,8 @@ top left corner.  The tags which are applied to one or more windows are
 indicated with an empty square in the top left corner.
 .P
 yawm draws a small border around windows to indicate the focus state.
+.P
+Autofocusing may be toggled by keyboard shortcut.
 .SH OPTIONS
 .TP
 .B \-v
@@ -57,7 +62,7 @@ click on a tag label adds/removes that tag to/from the focused window.
 .TP
 .B Mod1\-Shift\-Return
 Start
-.BR uxterm (1).
+.BR x-terminal-emulator or x-cmdline wrapper (1).
 .TP
 .B Mod1\-,
 Focus previous screen, if any.
@@ -76,6 +81,15 @@ Toggles bar on and off.
 .TP
 .B Mod1\-t
 Sets tiled layout.
+.TP
+.B Mod1\-g
+Sets grid layout.
+.TP
+.B Mod1\-s
+Sets stackable (normal) layout.
+.TP
+.B Mod1\-Shift\-s
+Sets stackable (horizontal) layout.
 .TP
 .B Mod1\-f
 Sets floating layout.
@@ -111,7 +125,7 @@ Zooms/cycles focused window to/from master area (tiled layouts only).
 Close focused window.
 .TP
 .B Mod1\-Shift\-space
-Toggle focused window between tiled and floating state.
+Toggles focused window between tiled and floating state.
 .TP
 .B Mod1\-Tab
 Toggles to the previously selected tags.
@@ -125,14 +139,20 @@ Apply all tags to focused window.
 .B Mod1\-Control\-Shift\-[1..n]
 Add/remove nth tag to/from focused window.
 .TP
+.B Mod1\-Control\-Shift\-w
+Call window selector.
+.TP
+.B Mod1\-Control\-Shift\-a
+Toggles autofocus.
+.TP
 .B Mod1\-[1..n]
 View all windows with nth tag.
 .TP
 .B Mod1\-0
 View all windows with any tag.
 .TP
-.B Mod1\-Control\-[1..n]
-Add/remove all windows with nth tag to/from the view.
+.B Mod1\-Control\-m
+Toggles maximize for currently selected window
 .TP
 .B Mod1\-Shift\-q
 Quit yawm.
