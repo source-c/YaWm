@@ -1,6 +1,6 @@
 .PHONY : all clean clean-all
 
-DIRS := dmenu slock status utils wm
+DIRS := dmenu slock st status utils wm
 
 all:
 	@for dir in $(DIRS); do $(MAKE) -C $$dir all; done
