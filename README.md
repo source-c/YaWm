@@ -1,29 +1,30 @@
 YaWm
 ====
 
-YaWm is just Yet Another Window Manager for everyday use. Another meaning of the project name is al-yawm [the day] (YaWm/wiki):
+`YaWm` is just Yet Another Window Manager which is used by me from early 2012. Another meaning of the name is al-yawm [the day] (YaWm/wiki):
 
-Originaly the code was forked from suckless's dwm, but for now I'm pretty sure that
-no patches from dwm might be applied to yawm - they became completely different.
+Originaly inspired by suckless's dwm. Reworked, patched, polished for my needs.
+Not have pretensions to be compatible with the original anymore.
 
-The goal of the project is to get a comfortable working environment in unix way:
+The main goal is to build comfortable X environment in true unix way:
 simple, flexible and strictly functional binary code that should help user to work
-with his tasks with a maximal performance and high usability.
+with his tasks with a maximal performance and to bring a high usability.
 Not more But not less.
 
-Recomended minimal toolset (covered by this git):
+Minimal toolset (also partialy covered by this repo):
 - yawm
 - yawmstatus
 - tinyterm
 - slock
 - dmenu
 
-Optionally:
+Optionally, I'd recommend:
 - clipit
 - volumeicon-alsa
 - surf
 - tabbed
-- other stuff you wish...
+- any other stuff you wish...
 
-xinit and other X-server stuff are required to run the YaWm.
+In order to run the WM xinit and base X stuff are required.
 
+Happy hacking!
