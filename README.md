@@ -26,6 +26,12 @@ In order to run the WM `xinit` and base X stuff are required.
 
 Happy hacking!
 
+Disclamer
+=========
+
+Despite the fact there are no active commits for a long time - the project is still active and maintained. The main binary is rock-stable and thus not requires changes. At least for author's needs.
+Feel free to contact me if you're interested in and/or have any issues regarding the project.
+
 Known issues
 ============
 
